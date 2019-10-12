@@ -16,10 +16,22 @@ import ArticleList from './views/ArticleList.vue'
 import AdEdit from './views/AdEdit.vue'
 import AdList from './views/AdList.vue'
 
+import AdminUserEdit from './views/AdminUserEdit.vue'
+import AdminUserList from './views/AdminUserList .vue'
+
+import Login from './views/Login.vue'
+
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
+    {
+      path:  '/login',
+      name: 'Login',
+      component: Login,
+      // 设置元信息
+      meta: {isPublic: true}
+    },
     {
       path: '/',
       name: 'Main',
@@ -94,8 +106,31 @@ export default new Router({
           path: '/ads/edit/:id',
           props: true,
           component: AdEdit
+        },
+        // 管理员账号管理
+        {
+          path: '/admin_users/create',
+          component: AdminUserEdit
+        },
+        {
+          path: '/admin_users/list',
+          component: AdminUserList
+        },
+        {
+          path: '/admin_users/edit/:id',
+          props: true,
+          component: AdminUserEdit
         }
       ]
     }
   ]
 })
+
+// 布置路由守卫
+router.beforeEach((to, form, next) => {
+  if (!to.meta.isPublic && !localStorage.token) {
+    return next('/login')
+  }
+  next()
+})
+export default router

@@ -7,6 +7,22 @@ import './style.css'
 
 Vue.config.productionTip = false
 
+// mixin定义的方法在全局都可以使用
+Vue.mixin({
+  computed: {
+    uploadUrl() {
+      return this.$http.defaults.baseURL + '/upload'
+    }
+  },
+  methods: {
+    getAuthHeaders() {
+      return {
+        Authorization: `Bearer ${localStorage.token || ''}`
+      }
+    }
+  }
+})
+
 import http from './http'
 Vue.prototype.$http = http
 
