@@ -20,7 +20,8 @@ export default new Router({
         }, {
           path: '/articles/:id',
           name: 'article',
-          component: Article
+          component: Article,
+          props: true
         }
       ]
     }
