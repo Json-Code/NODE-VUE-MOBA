@@ -25,43 +25,57 @@
                 <span>更多</span>
             </div>
         </div>
-         <!-- end of nav -->
-        <m-card icon="Menu" title="新闻资讯">
-            <div class="nav jc-between">
-                <div class="nav-item active">
-                    <div class="nav-link">热门</div>
+        <!-- end of nav -->
+        <!-- 新闻列表 -->
+        <m-list-card icon="Menu" title="新闻资讯" :categories="newsCats">
+			<!-- #xxx指定name为xxx的插槽  =“{XXXXXX}”获取到插槽里面的XXXXXX的数据 -->
+			<template #items="{category}">
+				<router-link tag="div" :to="`/articles/${news._id}`" class="py-2 fs-lg d-flex" v-for="(news, i) in category.newsList" :key="i">
+					<span class="px-2 text-info">[{{news.categoryName}}]</span>
+					<span>|</span>
+					<span class="flex-1 text-drak text-ellipsis pr-2">{{news.title}}</span>
+					<span class="text-grey-1">{{news.createdAt | date}}</span>
+				</router-link>
+			</template>
+        </m-list-card>
+        <!-- 英雄列表 -->
+        <m-list-card icon="card-hero" title="英雄列表" :categories="heroCats">
+			<!-- #xxx指定name为xxx的插槽  =“{XXXXXX}”获取到插槽里面的XXXXXX的数据 -->
+			<template #items="{category}">
+                <div class="d-flex flex-wrap" style="margin: 0 -0.5rem">
+                    <div class="p-2 text-center" style="width: 20%" v-for="(hero, i) in category.heroList" :key="i">
+                        <img :src="hero.avatar" class="w-100">
+                        <div>{{hero.name}}</div>
+                    </div>
                 </div>
-                <div class="nav-item">
-                    <div class="nav-link">热门</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-link">热门</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-link">热门</div>
-                </div>
-                <div class="nav-item">
-                    <div class="nav-link">热门</div>
-                </div>
-            </div>
-            <div class="pt-3">
-                <swiper>
-                    <swiper-slide v-for="m in 5" :key="m">
-                        <div class="py-2" v-for="n in 5" :key="n">
-                            <span>[新闻]</span>
-                            <span>|</span>
-                            <span>10月12日抢先服不停机更新公告</span>
-                            <span>06/02</span>
-                        </div>
-                    </swiper-slide>
-                </swiper>
-            </div>            
-        </m-card>
+			</template>
+        </m-list-card>
+        <!-- 精彩列表 -->
+        <m-list-card icon="card-hero" title="英雄列表">
+			<!-- #xxx指定name为xxx的插槽  =“{XXXXXX}”获取到插槽里面的XXXXXX的数据 -->
+			<template #items="{category}">
+
+			</template>
+        </m-list-card>
+        <!-- 图文攻略列表 -->
+        <m-list-card icon="card-hero" title="英雄列表">
+			<!-- #xxx指定name为xxx的插槽  =“{XXXXXX}”获取到插槽里面的XXXXXX的数据 -->
+			<template #items="{category}">
+
+			</template>
+        </m-list-card>        
     </div>
 </template>
 
 <script>
+import dayjs from 'dayjs'
+
 export default {
+    filters: {
+        date(val) {
+            return dayjs(val).format('MM/DD')
+        }
+    },
     data() {
         return {
             swiperOption: {
@@ -91,8 +105,24 @@ export default {
                 pagination: {
                     el: '.pagination-home'
                 }
-            }
+            },
+            newsCats: [],
+            heroCats: []
         }
+    },
+    methods: {
+        async fetchNewsCats() {
+            const res = await this.$http.get('news/list')
+            this.newsCats = res.data
+        },
+        async fetchHeroCats() {
+            const res = await this.$http.get('heroes/list')
+            this.heroCats = res.data
+        }
+    },
+    created() {
+        this.fetchNewsCats()
+        this.fetchHeroCats()
     }
 }
 </script>

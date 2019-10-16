@@ -38,5 +38,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.topbar{
+    // 新的吸顶属性 新的浏览器支持
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
 </style>

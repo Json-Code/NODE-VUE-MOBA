@@ -5,4 +5,7 @@ module.exports = app => {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
+
+    // 使用require-all工具来引入所有Models来防止报错
+    require('require-all')(__dirname + '/../model')
 }

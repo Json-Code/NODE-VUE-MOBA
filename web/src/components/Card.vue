@@ -1,7 +1,7 @@
 <template>
     <div class="card bg-white p-3 mt-3">
         <div class="card-header d-flex pb-3">
-            <i class="iconfont icon-Menu" :class="`icon-${icon}`"></i>
+            <i class="iconfont" :class="`icon-${icon}`"></i>
             <div class="fs-xl flex-1 px-2">{{title}}</div>
             <i class="iconfont icon-menu"></i>
         </div>
