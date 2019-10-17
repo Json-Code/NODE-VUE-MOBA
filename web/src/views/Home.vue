@@ -43,10 +43,10 @@
 			<!-- #xxx指定name为xxx的插槽  =“{XXXXXX}”获取到插槽里面的XXXXXX的数据 -->
 			<template #items="{category}">
                 <div class="d-flex flex-wrap" style="margin: 0 -0.5rem">
-                    <div class="p-2 text-center" style="width: 20%" v-for="(hero, i) in category.heroList" :key="i">
+                    <router-link tag="div" :to="`/heroes/${hero._id}`" class="p-2 text-center" style="width: 20%" v-for="(hero, i) in category.heroList" :key="i">
                         <img :src="hero.avatar" class="w-100">
                         <div>{{hero.name}}</div>
-                    </div>
+                    </router-link>
                 </div>
 			</template>
         </m-list-card>
